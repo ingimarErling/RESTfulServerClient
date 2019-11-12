@@ -38,38 +38,43 @@ public class JerseyService {
         return Response.status(200).entity("Hello from the Jersey Service").build();
     }
 
-
     /**
      * https://github.com/patmoore/jersey-example/blob/master/src/main/java/jersey/samples/helloworld/resources/UploadService.java
+     *
      * @param fileName
      * @param workgroupId
      * @param userId
      * @param content
-     * @return 
+     * @return
      */
     @POST
     @Path("/patmoore")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String uploadFile(@PathParam("fileName") final String fileName,
+    public String uploadFile(
+            @FormDataParam("fileName") final String fileName,
             @FormDataParam("workgroupId") String workgroupId,
             @FormDataParam("userId") final int userId,
             @FormDataParam("content") final InputStream content) {
-        //.......Upload the file to S3 or netapp or any storage service
-        
+
         logger.info("@POST-anrop från klient kl 16:29  /patmoore");
-        logger.info("userid is "+userId);
-        logger.info("workgroupId is "+workgroupId);
+        logger.info("fileName is " + fileName);
+        logger.info("workgroupId is " + workgroupId);
+        logger.info("userid is " + userId);
         try {
-            String generateFileName = "received" + userId + ".png";
+//            String generateFileName = "received" + userId + ".png";
+//            String pathname = "/tmp/uploader/xxxx.image";
             String pathname = "/tmp/uploader/xxxx.image";
+            if (fileName != null) {
+                pathname = "/tmp/uploader/".concat(fileName);
+            }
             File file = new File(pathname);
             OutputStream output = new FileOutputStream(file);
             BufferedImage image = ImageIO.read(content);
             boolean success = ImageIO.write(image, "png", output);
             output.close();
             content.close();
-            return generateFileName;
+            return pathname;
         } catch (Throwable e) {
             e.printStackTrace();
             return null;
