@@ -40,7 +40,7 @@ public class TestClient {
 
         FormDataMultiPart form = new FormDataMultiPart();
         form.field("owner", "ingimar");
-        form.field("fileName", "filnamn");
+        form.field("fileName", "testbild-svt-666.jpg");
         form.field("workgroupId", "XXX");
         form.field("userId", Integer.toString(i));
         InputStream content = new FileInputStream(new File(filePath));
