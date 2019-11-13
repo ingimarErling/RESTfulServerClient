@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.http.HttpClient;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -18,8 +19,8 @@ import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 /**
- *  java -Xms512m -Xmx15G 
- * 
+ * java -Xms512m -Xmx15G
+ *
  * @author ingimar
  */
 public class TestClient {
@@ -29,8 +30,25 @@ public class TestClient {
     public static void main(String[] args) throws IOException {
 
         TestClient c = new TestClient();
-//        c.png();
-        c.other();
+        int healthOfServer = c.healthOfServer();
+        System.out.println("Main is " + healthOfServer);
+
+        if (healthOfServer == 200) {
+            System.out.println("Server is running \n");
+                    c.other();
+        } else {
+            System.out.println("Server is not running ");
+        }
+
+    }
+
+    private int healthOfServer() {
+        int status = 404;
+        final Client client = ClientBuilder.newBuilder().build();
+        final WebTarget target = client.target("http://localhost:8080/JerseyServer/rest/upload/hello");
+        Response response = target.request().get();
+        status = response.getStatus();
+        return status;
 
     }
 
@@ -64,7 +82,7 @@ public class TestClient {
         content.close();
         System.out.println("response " + response.getStatus());
     }
-    
+
     private void other() throws FileNotFoundException, IOException {
         final Client client = ClientBuilder.newBuilder().register(MultiPartFeature.class).build();
         System.out.println("Testclient OTHER");
@@ -74,7 +92,7 @@ public class TestClient {
         String fileName = "1000mb.zip";
 //        String fileName = "2GB.zip";
         String filePath = "/tmp/".concat(fileName);
-        
+
         System.out.println("File ".concat(filePath));
 
         int i = 0;
