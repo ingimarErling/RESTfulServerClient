@@ -75,7 +75,7 @@ public class JerseyService {
     }
 
     @POST
-    @Path("/file")
+    @Path("/png")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public String uploadFileAgain(

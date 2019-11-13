@@ -24,7 +24,7 @@ public class TestClient {
     public static void main(String[] args) throws IOException {
 
         TestClient c = new TestClient();
-        c.patmoore();
+        c.png();
 
     }
     
@@ -35,25 +35,26 @@ public class TestClient {
      * @throws IOException 
      */
 
-    private void patmoore() throws FileNotFoundException, IOException {
+    private void png() throws FileNotFoundException, IOException {
         final Client client = ClientBuilder.newBuilder().register(MultiPartFeature.class).build();
 
         System.out.println("Testing 1");
         String fileName = "testbild-svt-666.png";
-        String filePath = "/tmp/testbild-svt-666.png";
+        String filePath = "/tmp/".concat(fileName);
+         System.out.println("File ".concat(filePath));
 
         int i = 0;
 
         FormDataMultiPart form = new FormDataMultiPart();
         form.field("owner", "ingimar");
-        form.field("fileName", "testbild-svt-666.png");
+        form.field("fileName", fileName);
         form.field("workgroupId", "XXX");
         form.field("userId", Integer.toString(i));
         InputStream content = new FileInputStream(new File(filePath));
         FormDataBodyPart fdp = new FormDataBodyPart("content", content, MediaType.APPLICATION_OCTET_STREAM_TYPE);
         form.bodyPart(fdp);
 
-        final WebTarget target = client.target("http://localhost:8080/JerseyServer/rest/upload/file");
+        final WebTarget target = client.target("http://localhost:8080/JerseyServer/rest/upload/png");
         final Response response = target.request().post(Entity.entity(form, MediaType.MULTIPART_FORM_DATA));
         content.close();
         System.out.println("response " + response.getStatus());
