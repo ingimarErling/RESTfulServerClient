@@ -18,7 +18,8 @@ import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 /**
- *
+ *  java -Xms512m -Xmx15G 
+ * 
  * @author ingimar
  */
 public class TestClient {
@@ -67,10 +68,11 @@ public class TestClient {
     private void other() throws FileNotFoundException, IOException {
         final Client client = ClientBuilder.newBuilder().register(MultiPartFeature.class).build();
         System.out.println("Testclient OTHER");
-                
 
 //        String fileName = "testbild-svt-666.png";
-        String fileName = "file100.zip";
+//        String fileName = "500mb.zip";
+        String fileName = "1000mb.zip";
+//        String fileName = "2GB.zip";
         String filePath = "/tmp/".concat(fileName);
         
         System.out.println("File ".concat(filePath));
@@ -90,6 +92,7 @@ public class TestClient {
         final Response response = target.request().post(Entity.entity(form, MediaType.MULTIPART_FORM_DATA));
         content.close();
         System.out.println("response " + response.getStatus());
+        System.out.println("response " + response.getStatusInfo());
     }
 
 }
