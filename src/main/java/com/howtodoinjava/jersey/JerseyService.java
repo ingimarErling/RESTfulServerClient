@@ -3,11 +3,8 @@ package com.howtodoinjava.jersey;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Iterator;
-import java.util.Map;
 import javax.imageio.ImageIO;
 
 import javax.ws.rs.Consumes;
@@ -16,13 +13,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 @Path("/upload")
@@ -62,8 +57,6 @@ public class JerseyService {
         logger.info("workgroupId is " + workgroupId);
         logger.info("userid is " + userId);
         try {
-//            String generateFileName = "received" + userId + ".png";
-//            String pathname = "/tmp/uploader/xxxx.image";
             String pathname = "/tmp/uploader/xxxx.image";
             if (fileName != null) {
                 pathname = "/tmp/uploader/".concat(fileName);
@@ -75,6 +68,36 @@ public class JerseyService {
             output.close();
             content.close();
             return pathname;
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @POST
+    @Path("/file")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String uploadFileAgain(
+            @FormDataParam("fileName") final String fileName,
+            @FormDataParam("workgroupId") String workgroupId,
+            @FormDataParam("userId") final int userId,
+            @FormDataParam("content") final InputStream content) {
+
+        logger.info("@POST-anrop från klient /file 2019-11-13 ");
+        logger.info("fileName is " + fileName);
+        logger.info("userid is " + userId);
+        logger.info("workgroupId is " + workgroupId);
+        try {
+            String generateFileName = "received" + userId + ".png";
+            String pathname = "/tmp/uploader/xxxx.image";
+            File file = new File(pathname);
+            OutputStream output = new FileOutputStream(file);
+            BufferedImage image = ImageIO.read(content);
+            boolean success = ImageIO.write(image, "png", output);
+            output.close();
+            content.close();
+            return generateFileName;
         } catch (Throwable e) {
             e.printStackTrace();
             return null;

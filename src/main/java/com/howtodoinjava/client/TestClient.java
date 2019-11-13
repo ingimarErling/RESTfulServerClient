@@ -14,7 +14,6 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 
 /**
  *
@@ -28,12 +27,19 @@ public class TestClient {
         c.patmoore();
 
     }
+    
+    /**
+     * the uploaded file does not have the same md5sum !?
+     * 
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
 
     private void patmoore() throws FileNotFoundException, IOException {
         final Client client = ClientBuilder.newBuilder().register(MultiPartFeature.class).build();
 
         System.out.println("Testing 1");
-//        String fileName = "testbild-svt-666.jpg";
+        String fileName = "testbild-svt-666.jpg";
         String filePath = "/tmp/testbild-svt-666.jpg";
 
         int i = 0;
@@ -47,8 +53,7 @@ public class TestClient {
         FormDataBodyPart fdp = new FormDataBodyPart("content", content, MediaType.APPLICATION_OCTET_STREAM_TYPE);
         form.bodyPart(fdp);
 
-        final WebTarget target = client.target("http://localhost:8080/JerseyServer/rest/upload/patmoore");
-//        final WebTarget target = client.target(endpoint);
+        final WebTarget target = client.target("http://localhost:8080/JerseyServer/rest/upload/file");
         final Response response = target.request().post(Entity.entity(form, MediaType.MULTIPART_FORM_DATA));
         content.close();
         System.out.println("response " + response.getStatus());
