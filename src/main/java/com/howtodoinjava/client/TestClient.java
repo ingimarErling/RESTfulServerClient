@@ -39,7 +39,6 @@ public class TestClient {
         } else {
             System.out.println("Server is not running ");
         }
-
     }
 
     private int healthOfServer() {
