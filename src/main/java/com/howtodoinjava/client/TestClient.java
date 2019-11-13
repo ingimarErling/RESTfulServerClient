@@ -39,14 +39,14 @@ public class TestClient {
         final Client client = ClientBuilder.newBuilder().register(MultiPartFeature.class).build();
 
         System.out.println("Testing 1");
-        String fileName = "testbild-svt-666.jpg";
-        String filePath = "/tmp/testbild-svt-666.jpg";
+        String fileName = "testbild-svt-666.png";
+        String filePath = "/tmp/testbild-svt-666.png";
 
         int i = 0;
 
         FormDataMultiPart form = new FormDataMultiPart();
         form.field("owner", "ingimar");
-        form.field("fileName", "testbild-svt-666.jpg");
+        form.field("fileName", "testbild-svt-666.png");
         form.field("workgroupId", "XXX");
         form.field("userId", Integer.toString(i));
         InputStream content = new FileInputStream(new File(filePath));
