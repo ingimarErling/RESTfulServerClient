@@ -17,7 +17,9 @@ This is the first of a few projects, testing out restful-server and java-clients
 6. [wip] fileUpload.html (2019-11-13)
 
 
-## Loogging :  log4j and tomcat
+## Appendix
+
+### Loogging :  log4j and tomcat
 
 create the file /lib/log4j.properties
 
