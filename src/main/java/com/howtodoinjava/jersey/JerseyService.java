@@ -3,8 +3,10 @@ package com.howtodoinjava.jersey;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Map;
 import javax.imageio.ImageIO;
 
 import javax.ws.rs.Consumes;
@@ -84,7 +86,7 @@ public class JerseyService {
             @FormDataParam("userId") final int userId,
             @FormDataParam("content") final InputStream content) {
 
-        logger.info("@POST-anrop från klient /file 2019-11-13 kl 10:28 ");
+        logger.info("@POST-anrop http://localhost:8080/JerseyServer/rest/upload/png ");
         logger.info("fileName is " + fileName);
         logger.info("userid is " + userId);
         logger.info("workgroupId is " + workgroupId);
@@ -108,4 +110,58 @@ public class JerseyService {
         }
     }
 
+    @POST
+    @Path("/other")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadAllFiles(
+            @FormDataParam("fileName") final String fileName,
+            @FormDataParam("workgroupId") String workgroupId,
+            @FormDataParam("userId") final int userId,
+            @FormDataParam("content") final InputStream uploadedInputStream) {
+        
+        final String UPLOAD_FOLDER = "/tmp/uploader/";
+        logger.info("other");
+        logger.info("@POST-anrop http://localhost:8080/JerseyServer/rest/upload/other ");
+        
+        logger.info("fileName is " + fileName);
+        logger.info("userid is " + userId);
+        logger.info("workgroupId is " + workgroupId);
+
+        try {
+            createFolderIfNotExists(UPLOAD_FOLDER);
+        } catch (SecurityException se) {
+            logger.info(se.getLocalizedMessage());
+            return Response.status(500).entity("Can not create destination folder on server").build();
+        }
+
+        String uploadedFileLocation = UPLOAD_FOLDER.concat(fileName);;
+        try {
+            saveToFile(uploadedInputStream, uploadedFileLocation);
+        } catch (IOException e) {
+            e.getStackTrace();
+            return Response.status(500).entity("Can not save file").build();
+        }
+
+        return Response.status(200).entity("File saved to " + uploadedFileLocation).build();
+    }
+
+    private void saveToFile(InputStream inStream, String target) throws IOException {
+        OutputStream out = null;
+        int read = 0;
+        byte[] bytes = new byte[1024];
+
+        out = new FileOutputStream(new File(target));
+        while ((read = inStream.read(bytes)) != -1) {
+            out.write(bytes, 0, read);
+        }
+        out.flush();
+        out.close();
+    }
+
+    private void createFolderIfNotExists(String dirName) throws SecurityException {
+        File theDir = new File(dirName);
+        if (!theDir.exists()) {
+            theDir.mkdir();
+        }
+    }
 }

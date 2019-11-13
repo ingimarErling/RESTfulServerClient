@@ -19,6 +19,15 @@ This is the first of a few projects, testing out restful-server and java-clients
 
 ## Appendix
 
+### creating large files in linux
+
+hardcoded source and target:
+
+1. The source for the files is '/tmp'
+2. cd /tmp
+3. fallocate -l 1000mb 1000mb.zip 
+4. The target for the files is '/tmp/uploader'  (mkdir /tmp/uploader)
+
 ### Loogging :  log4j and tomcat
 
 create the file /lib/log4j.properties
