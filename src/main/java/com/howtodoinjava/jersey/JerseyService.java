@@ -84,13 +84,17 @@ public class JerseyService {
             @FormDataParam("userId") final int userId,
             @FormDataParam("content") final InputStream content) {
 
-        logger.info("@POST-anrop från klient /file 2019-11-13 ");
+        logger.info("@POST-anrop från klient /file 2019-11-13 kl 10:28 ");
         logger.info("fileName is " + fileName);
         logger.info("userid is " + userId);
         logger.info("workgroupId is " + workgroupId);
         try {
             String generateFileName = "received" + userId + ".png";
             String pathname = "/tmp/uploader/xxxx.image";
+            if (fileName != null) {
+                pathname = "/tmp/uploader/".concat(fileName);
+            }
+            logger.info("(only png) saving image to  ".concat(pathname));
             File file = new File(pathname);
             OutputStream output = new FileOutputStream(file);
             BufferedImage image = ImageIO.read(content);
