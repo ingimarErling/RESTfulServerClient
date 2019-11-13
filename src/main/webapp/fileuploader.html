@@ -1,5 +1,15 @@
-Choose file to upload<br>
-<form action="rest/upload" method="post" enctype="multipart/form-data">
-	<input name="file" id="filename" type="file" /><br><br>
-    <button name="submit" type="submit">Upload</button>
-</form>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>fileupload all files</title>
+    </head>
+    <body>
+        <h1>Choose file to upload</h1>
+        <form action="rest/upload/other" method="post" enctype="multipart/form-data">
+            <!--<input name="file" id="filename" type="file" /><br><br>-->
+            <input name="file" id="fileName" type="file" size="45" /><br><br>
+            <button name="submit" type="submit">Upload</button>
+        </form>
+    </body>
+</html>
