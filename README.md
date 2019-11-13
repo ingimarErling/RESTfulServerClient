@@ -56,3 +56,7 @@ create the file /lib/log4j.properties
 
 1. cd /home/ingimar/SERVERS/apache-tomcat-8.0.27/logs
 2.  tail -f tomcat.log 
+
+## notes on vegadare
+
+https://docs.google.com/document/d/1nShNEV0kDo4Ndfbb1pcOeG0y60u3Q5kbES0FWbFncm8/edit?usp=sharing
