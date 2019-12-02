@@ -67,8 +67,9 @@ JAVA_OPTS already set in environment; overriding default settings with values: -
 **(B)**
 
 1. jboss-cli.sh --connect 
-2. /subsystem=undertow/server=default-server/http-listener=default/:read-attribute(name=max-post-size)
-3. :reload
+2. [standalone@localhost:9990 /] /subsystem=undertow/server=default-server/http-listener=default/:write-attribute(name=max-post-size,value=4048576000) 
+2. [standalone@localhost:9990 /] /subsystem=undertow/server=default-server/http-listener=default/:read-attribute(name=max-post-size)
+3. [standalone@localhost:9990 /] :reload
 
 
 
