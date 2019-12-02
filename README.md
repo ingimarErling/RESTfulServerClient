@@ -49,7 +49,7 @@ create the file /lib/log4j.properties
 
 # Settings for Wildfly.
 
-## before starting Wildfly, increase Java Heap Size 
+## before starting Wildfly, increase Java Heap Size (4GB)
 
 **(A)**
 
@@ -64,7 +64,7 @@ JAVA_OPTS already set in environment; overriding default settings with values: -
 =========================================================================
 ```
 
-**(B)**
+**(B)** Configuring undertow (4GB) - reload is needed
 
 1. jboss-cli.sh --connect 
 2. [standalone@localhost:9990 /] /subsystem=undertow/server=default-server/http-listener=default/:write-attribute(name=max-post-size,value=4048576000) 
