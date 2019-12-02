@@ -45,3 +45,30 @@ create the file /lib/log4j.properties
 
 1. cd /home/ingimar/SERVERS/apache-tomcat-8.0.27/logs
 2.  tail -f tomcat.log 
+
+
+# Settings for Wildfly.
+
+## before starting Wildfly, increase Java Heap Size 
+
+**(A)**
+
+1. edit standalone.conf (PRESERVE_JAVA_OPTS=false) 
+2. from command-line : export JAVA_OPTS="-Xms1024M -Xmx40968M -XX:MaxHeapSize=4096M -Djava.net.preferIPv4Stack=true"
+3. from command-line : ./standalone.sh
+
+```
+~/SERVERS/wildfly-10.1.0.Final/bin  export JAVA_OPTS="-Xms1024M -Xmx4096M -XX:MaxHeapSize=4096M -Djava.net.preferIPv4Stack=true"  
+ ~/SERVERS/wildfly-10.1.0.Final/bin  ./standalone.sh                                                                               
+JAVA_OPTS already set in environment; overriding default settings with values: -Xms1024M -Xmx4096M -XX:MaxHeapSize=4096M -Djava.net.preferIPv4Stack=true
+=========================================================================
+```
+
+**(B)**
+
+1. jboss-cli.sh --connect 
+2. /subsystem=undertow/server=default-server/http-listener=default/:read-attribute(name=max-post-size)
+3. :reload
+
+
+
